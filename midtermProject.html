@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "UTF-8">
+<link rel = "stylesheet" type = "text/css" href = "myCss.css">
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCB3o4BbXqljiwnRlaGbd10KFYVjWJie5g&sensor=false"></script>
+<script src=http://codeorigin.jquery.com/jquery-1.9.0.min.js></script>
+<script type = "text/javascript">
+ $(document).ready(function(){
+    console.log('doc ready!');
+	
+	$("#btn").click(function(){
+		
+		var search_term = {
+		
+			q: 'bowery'
+		};
+		console.dir(search_term);
+		search(search_term);
+	
+	});
+ 
+ });
+
+ function search(search_term)
+ {
+	console.log('searching for');
+	console.dir(search_term);
+	
+	$.ajax({
+		url:'https://api.twitter.com/1.1/search/tweets.json?' + $.param(search_term),
+		dataType:'jsonp',
+		success: function(data){
+			console.dir(data);
+		
+		}
+	});
+ }
+
+</script>
+<script>
+function initialize()
+{
+var mapProp = {
+  center:new google.maps.LatLng(44.182204, -72.868195),
+  zoom:10,
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+</head>
+
+<body>
+<div id="wrapper">
+
+  <div id = "leftColumn">
+    <div id = "tweetForm">
+      <fieldset id = "fieldSet">
+	    <legend>Twitter Search</legend>
+		<label>Enter Hashtags: <input type = "text" name ="hashtags" id = "hashtags"></label>
+		<label>Location Radius: <input type = "range" min = "1" and max = "10000" name = "radius" id = "radius"></label>
+		<br>
+		<label>Select Date: <input type = "date" name = "date" id = "date"></label>
+	    <label>Sort by:
+		  <input type = "radio" name = "sentimentalTweets" id = "happyTweets" value = "HT"> Happy Tweets
+		  <input type = "radio" name = "sentimentalTweets" id = "sadTweets" value = "ST"> Sad Tweets
+		</label>
+		<br>
+		<input type = "submit" id = "btn" value = "Search" >
+	  </fieldset>
+	</div>
+	
+	<div id = "googleMap">
+	</div>
+  </div>
+  
+  <div id = "rightColumn">
+    <header class= "hder">Most Frequently Searched For Hashtags</header>
+  
+  <div id="tweets">
+  
+    <ul>
+	</ul>
+  
+  </div>
+  
+  
+  </div>
+  
+</div>  
+  
+
+
+</body>
+
+</html>
